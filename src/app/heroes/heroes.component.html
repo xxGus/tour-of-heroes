@@ -1,22 +1,49 @@
 <h2>My Heroes</h2>
-
 <div>
-    <label>Hero name:
-        <input #heroName/>
-    </label>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="add(heroName.value); heroName.value=''">
-        add
-    </button>
+    <form [formGroup]="heroForm">
+        <div class="form-group radio">
+            <label>Name:
+                <input type="text" class="form-control" formControlName="name"></label>
+            <h4>Super power:</h4>
+            <label class="center-block"><input type="radio" formControlName="power" value="flight">Flight</label>
+            <label class="center-block"><input type="radio" formControlName="power" value="x-ray vision">X-ray
+                vision</label>
+            <label class="center-block"><input type="radio" formControlName="power" value="strength">Strength</label>
+            <div class="checkbox">
+                <label class="center-block">
+                    <input type="checkbox" formControlName="sidekick">I have a sidekick.
+                </label>
+            </div>
+        </div>
+        <div formGroupName="address" class="well well-lg from-group">
+            <h4>Secret Lair</h4>
+            <div class="form-group">
+                <label class="center-block">Street:
+                    <input class="form-control" formControlName="street">
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="center-block">City:
+                    <input class="form-control" formControlName="city">
+                </label>
+            </div>
+            <!--<div class="form-group">-->
+            <!--<label class="center-block">State:-->
+            <!--<select class="form-control" formControlName="state">-->
+            <!--<option *ngFor="let state of states" [value]="state">{{state}}</option>-->
+            <!--</select>-->
+            <!--</label>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label class="center-block">Zip Code:
+                    <input class="form-control" formControlName="zip">
+                </label>
+            </div>
+        </div>
+        <button>submit</button>
+    </form>
 </div>
 
-<ul class="heroes">
-    <li *ngFor="let hero of heroes">
-        <a routerLink="/detail/{{hero.id}}">
-            <span class="badge">{{hero.id}}</span> {{hero.name}}
-        </a>
-        <button class="delete" title="delete hero"
-                (click)="delete(hero)">x
-        </button>
-    </li>
-</ul>
+<div class="list">
+    <app-hero-list></app-hero-list>
+</div>

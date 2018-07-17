@@ -1,38 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+///<reference path="shared/hero.ts"/>
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
+import {HeroService} from './shared/hero.service';
+import {Hero} from './shared/hero';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Address} from './shared/address';
 
 @Component({
     selector: 'app-heroes',
     templateUrl: './heroes.component.html',
     styleUrls: ['./heroes.component.css']
 })
-export class HeroesComponent implements OnInit {
-    heroes: Hero[];
 
-    constructor(private heroService: HeroService) { }
+export class HeroesComponent implements OnInit {
+
+    public hero: Hero;
+    heroForm: FormGroup;
+
+    constructor(private heroService: HeroService,
+                private formBuilder: FormBuilder) {
+        this.createForm();
+    }
 
     ngOnInit() {
-        this.getHeroes();
     }
 
-    getHeroes(): void {
-        this.heroService.getHeroes()
-            .subscribe(heroes => this.heroes = heroes);
+    createForm() {
+        this.heroForm = this.formBuilder.group({
+            name: '',
+            address: this.formBuilder.group({
+                street: '',
+                city: '',
+                zip: ''
+            }),
+            power: '',
+            sidekick: ''
+        });
     }
 
-    add(name: string): void {
-        name = name.trim();
-        if (!name) { return; }
-        this.heroService.addHero({ name } as Hero)
-            .subscribe(hero => {
-                this.heroes.push(hero);
-            });
-    }
-
-    delete(hero: Hero): void {
-        this.heroes = this.heroes.filter(h => h !== hero);
-        this.heroService.deleteHero(hero).subscribe();
+    addHero(name: string): void {
+        this.hero.name = name;
+        console.log(this.hero);
+        // this.heroService.addHero(this.hero);
     }
 }
+
