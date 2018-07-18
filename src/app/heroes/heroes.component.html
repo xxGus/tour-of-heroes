@@ -1,6 +1,6 @@
 <h2>My Heroes</h2>
 <div>
-    <form [formGroup]="heroForm">
+    <form [formGroup]="heroForm" (ngSubmit)="onSubmit()">
         <div class="form-group radio">
             <label>Name:
                 <input type="text" class="form-control" formControlName="name"></label>

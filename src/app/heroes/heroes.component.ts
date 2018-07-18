@@ -1,10 +1,10 @@
 ///<reference path="shared/hero.ts"/>
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {HeroService} from './shared/hero.service';
 import {Hero} from './shared/hero';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import {Address} from './shared/address';
 
 @Component({
@@ -13,7 +13,7 @@ import {Address} from './shared/address';
     styleUrls: ['./heroes.component.css']
 })
 
-export class HeroesComponent implements OnInit {
+export class HeroesComponent implements OnInit, OnChanges {
 
     public hero: Hero;
     heroForm: FormGroup;
@@ -24,6 +24,10 @@ export class HeroesComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnChanges() {
+        this.rebuildForm();
     }
 
     createForm() {
@@ -39,10 +43,37 @@ export class HeroesComponent implements OnInit {
         });
     }
 
-    addHero(name: string): void {
-        this.hero.name = name;
-        console.log(this.hero);
+    onSubmit(): void {
+        // this.hero = this.prepareSaveHero();
+        this.rebuildForm();
         // this.heroService.addHero(this.hero);
+    }
+
+    prepareSaveHero(): Hero {
+
+        const formModel = this.heroForm.value;
+
+        const saveHero = new Hero();
+
+        saveHero.name = formModel.name;
+        saveHero.address = formModel.address;
+        saveHero.power = formModel.power;
+        saveHero.sidekick = formModel.sidekick;
+
+        return saveHero;
+    }
+
+    rebuildForm() {
+        this.heroForm.reset({
+            name: '',
+            address: {
+                street: '',
+                city: '',
+                zip: ''
+            },
+            power: '',
+            sidekick: ''
+        });
     }
 }
 

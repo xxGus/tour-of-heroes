@@ -1,9 +1,9 @@
 import {Address} from './address';
 
 export class Hero {
-    public key: number;
+    public key: string;
     public name: string;
-    public addresses: Address[];
+    public address: Address[];
     public power: string;
     public sidekick: boolean;
 }
